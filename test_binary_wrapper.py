@@ -32,6 +32,12 @@ class TestsBinaryWrapper(TestCase):
 
         self.assertEqual(result, 'regular method called')
 
+    def test_when_non_existing_method_called_with_unnamed_args_then_must_pass_as_its_parameters(self):
+        result = self._python_wrapper.non_existing_method('first arg', 'second arg')
+
+        stdout = result.stdout.decode()[:-1]
+        self.assertEqual(stdout, 'non_existing_method;first arg;second arg')
+
 
 if __name__ == '__main__':
     unittest.main()

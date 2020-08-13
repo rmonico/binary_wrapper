@@ -23,8 +23,6 @@ class BinaryWrapper(object):
         def __call_wrapper__(*args, **kwargs):
             command = attribute_name
 
-            args = args[1:]
-
             return self._call(command, *args, **kwargs)
 
         return __call_wrapper__
