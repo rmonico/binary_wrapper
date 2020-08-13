@@ -38,6 +38,11 @@ class TestsBinaryWrapper(TestCase):
         stdout = result.stdout.decode()[:-1]
         self.assertEqual(stdout, 'non_existing_method;first arg;second arg')
 
+    def test_when_non_existing_method_called_with_kwargs_then_must_pass_then_as_switches(self):
+        result = self._python_wrapper.non_existing_method(first='value 1', second='second value')
+
+        stdout = result.stdout.decode()[:-1]
+        self.assertEqual(stdout, 'non_existing_method;--first;value 1;--second;second value')
 
 if __name__ == '__main__':
     unittest.main()
