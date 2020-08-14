@@ -2,7 +2,7 @@ source zsh_autorun_start "$(realpath "$0")" || return 0
 
 _description='binary_wrapper: A python generic binary wrapper'
 
-_functions=($_functions workon run compile upload clean clean_idea)
+_functions=($_functions workon test compile upload clean clean_idea)
 
 
 _workon_description="Activate virtualenv for this project"
