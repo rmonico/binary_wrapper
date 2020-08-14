@@ -9,5 +9,4 @@ setup(name='binary_wrapper',
       author_email='rmonico1@gmail.com',
       license='GPL3',
       include_package_data=True,
-      },
       zip_safe=False)
