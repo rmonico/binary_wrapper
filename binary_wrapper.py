@@ -2,6 +2,17 @@ import os
 import subprocess
 
 
+"""
+Example:
+    from binary_wrapper import BinaryWrapper
+
+    git = Binary('git') # Find git in PATH
+
+    git.init() # Run 'git init'
+    git.add('README') # Run 'git add README'
+    git.commit(m='First commit') # Run 'git commit -m "First commit"
+    git.config(get='core.pager') # Run 'git config --get core.pager  # << notice the -- instead -
+"""
 class BinaryWrapper(object):
 
     def __init__(self, binary):
@@ -17,6 +28,9 @@ class BinaryWrapper(object):
         switchs = []
         for key, value in kwargs.items():
             prefix = '--' if len(key) > 1 else '-'
+            # TODO Convert _ in key to - in parameter
+            # TODO Handle parameters which requires = between key and value
+            # TODO Handle flag parameters (when value == True)
             switchs.append('{}{}'.format(prefix, key))
             switchs.append(str(value))
 
