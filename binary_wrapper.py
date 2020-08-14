@@ -16,7 +16,8 @@ class BinaryWrapper(object):
     def _wrap(self, method, *args, **kwargs):
         switchs = []
         for key, value in kwargs.items():
-            switchs.append('--{}'.format(key))
+            prefix = '--' if len(key) > 1 else '-'
+            switchs.append('{}{}'.format(prefix, key))
             switchs.append(str(value))
 
         binary_with_args = [self._binary_path, method] + list(args) + switchs
