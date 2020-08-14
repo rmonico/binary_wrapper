@@ -1,0 +1,65 @@
+source zsh_autorun_start "$(realpath "$0")" || return 0
+
+_description='binary_wrapper: A python generic binary wrapper'
+
+_functions=($_functions workon run compile upload clean clean_idea)
+
+
+_workon_description="Activate virtualenv for this project"
+workon() {
+    source virtualenvwrapper.sh
+
+    workon binary_wrapper
+}
+
+_test_description="Run tests"
+test() {
+    local old_pwd="$(pwd)"
+    cd $base_path
+
+    python -m unittest
+
+    cd "$old_pwd"
+}
+
+_compile_description="Compile the project (needs virtualenv activated)"
+compile() {
+    if [ -z "$VIRTUAL_ENV" ]; then
+      echo "Virtualenv not active"
+      return 1
+    fi
+
+    local old_pwd="$(pwd)"
+    cd $base_path
+
+    python3 setup.py sdist bdist_wheel
+
+    cd "$old_pwd"
+}
+
+_upload_description="Upload the project to pypi, compile before (needs virtualenv activated)"
+upload() {
+    if [ -z "$VIRTUAL_ENV" ]; then
+      echo "Virtualenv not active"
+      return 1
+    fi
+
+    local old_pwd="$(pwd)"
+    cd $base_path
+
+    twine upload --repository pypi dist/\*
+
+    cd "$old_pwd"
+}
+
+_clean_description="Clean project binaries"
+clean() {
+  rm -rf build dist binary_wrapper.egg-info __pycache
+}
+
+_clean_idea_description="Removes .idea and binary_wrapper.iml"
+clean_idea() {
+  rm -rf .idea binary_wrapper.iml
+}
+
+source zsh_autorun_end "$(realpath "$0")"
