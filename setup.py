@@ -10,4 +10,4 @@ setup(name='binary_wrapper',
       license='GPL3',
       include_package_data=True,
       },
-      zip_safe=False, install_requires=['PyYAML'])
+      zip_safe=False)
