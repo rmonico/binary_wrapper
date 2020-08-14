@@ -14,8 +14,8 @@ class TestsBinaryWrapper(TestCase):
             def __init__(self):
                 super().__init__('python3')
 
-            def _call(self, *args):
-                return super()._call('-c', 'import sys; print(";".join(sys.argv[1:]))', *args)
+            def _wrap(self, *args, **kwargs):
+                return super()._wrap('-c', 'import sys; print(";".join(sys.argv[1:]))', *args, **kwargs)
 
         self._python_wrapper = PythonWrapper()
 

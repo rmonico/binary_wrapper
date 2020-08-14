@@ -13,17 +13,21 @@ class BinaryWrapper(object):
         if not self._binary_path:
             raise BinaryWrapperException('{} not found in PATH'.format(binary))
 
-    def _call(self, *args):
-        process = subprocess.run(
-            [self._binary_path] + list(args), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    def _wrap(self, method, *args, **kwargs):
+        switchs = []
+        for key, value in kwargs.items():
+            switchs.append('--{}'.format(key))
+            switchs.append(str(value))
+
+        binary_with_args = [self._binary_path, method] + list(args) + switchs
+
+        process = subprocess.run(args=binary_with_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         return process
 
     def __getattr__(self, attribute_name):
         def __call_wrapper__(*args, **kwargs):
-            command = attribute_name
-
-            return self._call(command, *args, **kwargs)
+            return self._wrap(attribute_name, *args, **kwargs)
 
         return __call_wrapper__
 
